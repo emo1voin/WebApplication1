@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система управления заказами</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <h1>📦 Система управления заказами</h1>
+            <div class="nav-buttons">
+                <button class="btn-nav" onclick="showTab('orders')">Заказы</button>
+                <button class="btn-nav" onclick="showTab('create-order')">Создать заказ</button>
+            </div>
+        </nav>
+
+        <!-- Orders Tab -->
+        <div id="orders" class="tab-content">
+            <div class="tab-header">
+                <h2>Все заказы</h2>
+                <div class="filters">
+                    <select id="statusFilter" onchange="filterOrders()">
+                        <option value="">Все статусы</option>
+                        <option value="Pending">В ожидании</option>
+                        <option value="Processing">Обработка</option>
+                        <option value="Ready">Готово</option>
+                        <option value="Completed">Завершено</option>
+                        <option value="Cancelled">Отменено</option>
+                    </select>
+                </div>
+            </div>
+            <div id="ordersList" class="orders-list"></div>
+        </div>
+
+        <!-- Create Order Tab -->
+        <div id="create-order" class="tab-content" style="display: none;">
+            <h2>Создать новый заказ</h2>
+            <form id="orderForm" class="form-group">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="userId">Выберите клиента:</label>
+                        <select id="userId" required>
+                            <option value="">-- Выберите клиента --</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="pickupPointId">Пункт выдачи:</label>
+                        <select id="pickupPointId" required>
+                            <option value="">-- Выберите пункт выдачи --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="deliveryDate">Дата доставки (календарь):</label>
+                    <input type="date" id="deliveryDate">
+                </div>
+
+                <div class="products-section">
+                    <h3>Товары в заказе</h3>
+                    <div id="orderItems" class="order-items"></div>
+                    <button type="button" class="btn-secondary" onclick="addOrderItem()">+ Добавить товар</button>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Создать заказ</button>
+                    <button type="button" class="btn-secondary" onclick="resetOrderForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for order details -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOrderModal()">&times;</span>
+            <h2>Детали заказа</h2>
+            <div id="orderDetails"></div>
+            <div class="modal-actions">
+                <select id="newStatus" class="modal-select">
+                    <option value="">-- Изменить статус --</option>
+                    <option value="Pending">В ожидании</option>
+                    <option value="Processing">Обработка</option>
+                    <option value="Ready">Готово</option>
+                    <option value="Completed">Завершено</option>
+                </select>
+                <button class="btn-primary" onclick="updateOrderStatus()">Применить</button>
+                <button class="btn-danger" onclick="cancelOrder()">Отменить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
