@@ -93,13 +93,7 @@ public class OrdersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Order>> GetOrder(int id)
     {
-        var order = await _context.Orders
-            .Include(o => o.User)
-            .Include(o => o.PickupPoint)
-            .Include(o => o.OrderItems)
-            .ThenInclude(oi => oi.Product)
-            .FirstOrDefaultAsync(o => o.Id == id);
-
+        var order = await _context.Orders.FindAsync(id);
         if (order == null)
             return NotFound("Order not found");
 
